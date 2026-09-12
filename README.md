@@ -23,3 +23,6 @@ O **App Defesa da Mulher** é um aplicativo mobile (prioritariamente Android no 
 
 ---
 *Grupo 12 - Fábrica de Software 2026*
+Participantes: VINICIUS LIMA SANTOS - Programação e Pesquisa
+BIANCA VITÓRIA PINHEIRO DA SILVA - Design e Pesquisa
+VICTOR HUGO PIERINI PEREIRA - Programação e Pesquisa
