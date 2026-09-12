@@ -1,0 +1,15 @@
+# Flutter/Dart/Pub specifics
+.dart_tool/
+.packages
+build/
+.pub/
+pubspec.lock
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# OS specific
+.DS_Store
+Thumbs.db
