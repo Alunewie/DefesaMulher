@@ -1,3 +1,4 @@
+import 'package:defesa_mulher_app/screens/inicio.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,11 +17,10 @@ class DefesaMulherApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF880E4F)),
         useMaterial3: true,
       ),
-      home: const Scaffold(
-        body: Center(
-          child: Text('App Defesa da Mulher - Estrutura Inicial (Grupo 12)'),
-        ),
-      ),
+      routes: {
+        '/home': (context) => Inicio()
+      },
+      initialRoute: '/home',
     );
   }
 }
