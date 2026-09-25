@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Inicio extends StatelessWidget {
   const Inicio({super.key});
 
-  Widget gerarBotaoTelaInicial(IconData icone, String titulo) {
+  void _abrirTelefone() async {
+    await launchUrl(Uri.parse('tel:190'));
+  }
+
+  Widget _gerarBotaoTelaInicial(IconData icone, String titulo) {
     return (ElevatedButton(
         onPressed: () {},
         style:
@@ -50,17 +55,19 @@ class Inicio extends StatelessWidget {
           spacing: 35,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            gerarBotaoTelaInicial(Icons.help, 'Onde buscar ajuda'),
-            gerarBotaoTelaInicial(Icons.balance, 'Direitos e Proteção'),
-            gerarBotaoTelaInicial(Icons.back_hand, 'Tipos de violência'),
-            gerarBotaoTelaInicial(
+            _gerarBotaoTelaInicial(Icons.help, 'Onde buscar ajuda'),
+            _gerarBotaoTelaInicial(Icons.balance, 'Direitos e Proteção'),
+            _gerarBotaoTelaInicial(Icons.back_hand, 'Tipos de violência'),
+            _gerarBotaoTelaInicial(
                 Icons.book_outlined, 'Prevenção e Orientação'),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         extendedPadding: const EdgeInsets.all(25),
-          onPressed: () {},
+          onPressed: () {
+            _abrirTelefone();
+          },
           label: const Row(
             children: [
               Icon(Icons.phone_in_talk,
