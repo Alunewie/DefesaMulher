@@ -8,7 +8,14 @@ class Ajuda extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(conteudos: [
-
-    ], titulo: 'Ajuda',);
+       Container(
+         height: 456,
+         width: 362,
+         decoration: BoxDecoration(
+           color: Color.fromRGBO(226, 221, 232, 1),
+           borderRadius: BorderRadius.all(Radius.circular(20))
+         ),
+       )
+    ], titulo: 'Onde Buscar Ajuda', ocultarBotaoSobre: true);
   }
 }

@@ -20,7 +20,7 @@ class DefesaMulherApp extends StatelessWidget {
       navigatorKey: NavigationService.navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF880E4F)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(129, 93, 168, 1)),
         useMaterial3: true,
       ),
       routes: {
