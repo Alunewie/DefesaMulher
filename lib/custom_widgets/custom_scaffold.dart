@@ -20,6 +20,12 @@ class CustomScaffold extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 150,
         automaticallyImplyLeading: false,
+        leading: Navigator.canPop(context)
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 28),
+                onPressed: () => Navigator.pop(context),
+              )
+            : null,
         backgroundColor: const Color.fromRGBO(129, 93, 168, 1),
         title: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -37,22 +43,29 @@ class CustomScaffold extends StatelessWidget {
             ),) : Container()
           ],
         ),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.all(25.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(Icons.logout, size: 35, color: Colors.white),
-                Text(
-                  'Sair',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                )
-              ],
+            padding: const EdgeInsets.all(25.0),
+            child: GestureDetector(
+              onTap: () {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+              },
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.logout, size: 35, color: Colors.white),
+                  Text(
+                    'Sair',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
             ),
           )
         ],
