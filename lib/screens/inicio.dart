@@ -39,6 +39,6 @@ class Inicio extends StatelessWidget {
       _gerarBotaoTelaInicial(Icons.front_hand, 'Tipos de violência', 'tipo_violencia'),
       _gerarBotaoTelaInicial(
           Icons.comment, 'Prevenção e Orientação', 'prevencao'),
-    ], titulo: 'Olá, vamos te ajudar!',);
+    ], titulo: 'Olá, vamos te ajudar!', subtitulo: 'O que você precisa neste momento?');
   }
 }
