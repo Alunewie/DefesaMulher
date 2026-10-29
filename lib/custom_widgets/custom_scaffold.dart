@@ -6,8 +6,16 @@ class CustomScaffold extends StatelessWidget {
   final String? subtitulo;
   final List<Widget> conteudos;
   final bool? ocultarBotaoSobre;
+  final double? espacamento;
 
-  const CustomScaffold({super.key, required this.conteudos, required this.titulo, this.ocultarBotaoSobre, this.subtitulo});
+  const CustomScaffold({
+    super.key,
+    required this.conteudos,
+    required this.titulo,
+    this.ocultarBotaoSobre,
+    this.subtitulo,
+    this.espacamento,
+  });
 
   void _abrirTelefone() async {
     await launchUrl(Uri.parse('tel:190'));
@@ -77,7 +85,7 @@ class CustomScaffold extends StatelessWidget {
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Column(
-                spacing: 35,
+                spacing: espacamento ?? 20,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: conteudos,
               ),
