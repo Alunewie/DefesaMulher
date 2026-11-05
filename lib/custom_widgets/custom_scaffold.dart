@@ -1,24 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../services/NavigationService.dart';
+
 class CustomScaffold extends StatelessWidget {
-  final String titulo;
+  final String? titulo;
   final String? subtitulo;
   final List<Widget> conteudos;
-  final bool? ocultarBotaoSobre;
+  final bool isHome;
+  final IconData? categoriaIcone;
+  final String? proximaRota;
+  final String? textoVoltar;
+  final VoidCallback? onVoltar;
   final double? espacamento;
 
   const CustomScaffold({
     super.key,
     required this.conteudos,
-    required this.titulo,
-    this.ocultarBotaoSobre,
+    this.titulo,
     this.subtitulo,
+    this.isHome = false,
+    this.categoriaIcone,
+    this.proximaRota,
+    this.textoVoltar,
+    this.onVoltar,
     this.espacamento,
   });
 
   void _abrirTelefone() async {
     await launchUrl(Uri.parse('tel:190'));
+  }
+
+  void _aoClicarSair(BuildContext context) {
+    if (Navigator.canPop(context)) {
+      Navigator.popUntil(context, (route) => route.isFirst);
+    } else {
+      SystemNavigator.pop();
+    }
   }
 
   @override
@@ -30,8 +49,9 @@ class CustomScaffold extends StatelessWidget {
         automaticallyImplyLeading: false,
         leading: Navigator.canPop(context)
             ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 28),
-                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.arrow_back_ios_new,
+                    color: Colors.white, size: 28),
+                onPressed: () => _aoClicarSair(context),
               )
             : null,
         backgroundColor: const Color.fromRGBO(129, 93, 168, 1),
@@ -39,16 +59,22 @@ class CustomScaffold extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(titulo, style: const TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.bold
-            ),),
-            subtitulo != null ? Text(subtitulo!, style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w400
-            ),) : Container()
+            Text(
+              titulo ?? '',
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ),
+            subtitulo != null
+                ? Text(
+                    subtitulo!,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400),
+                  )
+                : Container()
           ],
         ),
         actions: [
@@ -98,36 +124,64 @@ class CustomScaffold extends StatelessWidget {
         color: const Color.fromRGBO(129, 93, 168, 1),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: (ocultarBotaoSobre == null || ocultarBotaoSobre == false) ? Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                FloatingActionButton(
-                  onPressed: () {},
-                  backgroundColor: const Color.fromRGBO(104, 79, 129, 1),
-                  child: const Icon(
-                    Icons.help_outline_sharp,
-                    size: 27,
-                    color: Colors.white,
+      floatingActionButton: (isHome == true)
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      FloatingActionButton(
+                        onPressed: () {
+                          NavigationService.navigateTo('/sobre');
+                        },
+                        backgroundColor: const Color.fromRGBO(104, 79, 129, 1),
+                        child: const Icon(
+                          Icons.help_outline_sharp,
+                          size: 27,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      const Text(
+                        'Sobre o aplicativo',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 6),
-                const Text(
-                  'Sobre o aplicativo',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
+                  FloatingActionButton.extended(
+                    backgroundColor: const Color.fromRGBO(80, 55, 105, 1),
+                    extendedPadding: const EdgeInsets.all(25),
+                    onPressed: () {
+                      _abrirTelefone();
+                    },
+                    label: const Row(
+                      spacing: 15,
+                      children: [
+                        Icon(Icons.phone_in_talk,
+                            size: 27, color: Colors.white),
+                        Text(
+                          'AJUDA',
+                          style: TextStyle(
+                            fontSize: 27,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            FloatingActionButton.extended(
+                ],
+              ),
+            )
+          : FloatingActionButton.extended(
               backgroundColor: const Color.fromRGBO(80, 55, 105, 1),
               extendedPadding: const EdgeInsets.all(25),
               onPressed: () {
@@ -140,33 +194,12 @@ class CustomScaffold extends StatelessWidget {
                   Text(
                     'AJUDA',
                     style: TextStyle(
-                      fontSize: 27,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white,
-                    ),
-                  ),
+                        fontSize: 27,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  )
                 ],
-              ),
-            ),
-          ],
-        ),
-      ) : FloatingActionButton.extended(
-          backgroundColor: const Color.fromRGBO(80, 55, 105, 1),
-          extendedPadding: const EdgeInsets.all(25),
-          onPressed: () {
-            _abrirTelefone();
-          },
-          label: const Row(
-            spacing: 15,
-            children: [
-              Icon(Icons.phone_in_talk,
-                  size:27, color: Colors.white),
-              Text(
-                'AJUDA',
-                style: TextStyle(fontSize: 27, fontWeight: FontWeight.w400, color: Colors.white),
-              )
-            ],
-          )),
+              )),
     );
   }
 }
@@ -196,13 +229,11 @@ class CurvedBorderPainter extends CustomPainter {
       bottomRight: Radius.circular(raio),
     );
 
-    // 1. Fill cream background
     final fillPaint = Paint()
       ..color = fillColor
       ..style = PaintingStyle.fill;
     canvas.drawRRect(rrect, fillPaint);
 
-    // 2. Draw curved green borders clipped to rrect
     canvas.save();
     canvas.clipRRect(rrect);
 
@@ -213,7 +244,6 @@ class CurvedBorderPainter extends CustomPainter {
       ..strokeCap = StrokeCap.butt
       ..isAntiAlias = true;
 
-    // Top border path: from left edge along top-left curve to (r, 0), then flat to top-right (w, 0)
     final topPath = Path()
       ..moveTo(0, raio)
       ..arcToPoint(Offset(raio, 0), radius: Radius.circular(raio))
@@ -222,7 +252,8 @@ class CurvedBorderPainter extends CustomPainter {
 
     final bottomPath = Path()
       ..moveTo(largura, altura - raio)
-      ..arcToPoint(Offset(largura - raio, altura), radius: Radius.circular(raio))
+      ..arcToPoint(Offset(largura - raio, altura),
+          radius: Radius.circular(raio))
       ..lineTo(0, altura);
     canvas.drawPath(bottomPath, borderPaint);
 
