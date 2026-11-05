@@ -1,85 +1,263 @@
-import 'package:defesa_mulher_app/custom_widgets/bloco_texto.dart';
-import 'package:defesa_mulher_app/custom_widgets/custom_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:defesa_mulher_app/custom_widgets/custom_scaffold.dart';
+import 'package:defesa_mulher_app/models/violencia_item.dart';
 
-class TipoViolencia extends StatelessWidget {
+class TipoViolencia extends StatefulWidget {
   const TipoViolencia({super.key});
 
   @override
+  State<TipoViolencia> createState() => _TipoViolenciaState();
+}
+
+class _TipoViolenciaState extends State<TipoViolencia> {
+  ViolenciaItem? _itemSelecionado;
+
+  Future<void> _abrirLink(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const CustomScaffold(
-      titulo: 'Tipos de Violência',
-      ocultarBotaoSobre: true,
+
+    if (_itemSelecionado != null) {
+      return _buildTelaDetalhe(_itemSelecionado!);
+    }
+
+    return CustomScaffold(
+      titulo: 'Tipos de violência',
+      categoriaIcone: Icons.front_hand,
+      proximaRota: '/prevencao',
       conteudos: [
-        BlocoTexto(
-          titulo: '1) VIOLÊNCIA FÍSICA (ART. 7º, INCISO I DA LEI MARIA DA PENHA)',
-          conteudo:
-              'Entendida como qualquer conduta que ofenda a integridade física ou a saúde corporal da mulher. É a forma mais visível de agressão, mas muitas vezes se manifesta de maneiras sutis antes de episódios graves.\n\n'
-              'Exemplos frequentes:\n\n'
-              '• Bater, desferir tapas, socos, pontapés ou empurrões;\n\n'
-              '• Sacudir, apertar os braços deixando hematomas, beliscar ou puxar cabelos;\n\n'
-              '• Arremessar objetos em direção à mulher ou quebrar itens ao seu redor para intimidá-la;\n\n'
-              '• Causar queimaduras, cortes, perfurações com objetos ou lesões;\n\n'
-              '• Sufocamento, tentativas de estrangulamento ou imobilização à força;\n\n'
-              'A violência física não exige que fiquem marcas aparentes ou hematomas para ser reconhecida como crime perante a lei.',
+        _buildGridOpcoes(),
+      ],
+    );
+  }
+
+  Widget _buildGridOpcoes() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+      child: Wrap(
+        spacing: 16,
+        runSpacing: 18,
+        alignment: WrapAlignment.center,
+        children: ViolenciaItem.lista.map((item) {
+          return _buildCardTipoViolencia(item);
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildCardTipoViolencia(ViolenciaItem item) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _itemSelecionado = item;
+        });
+      },
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        width: 155,
+        height: 128,
+        decoration: BoxDecoration(
+          color: const Color(0xFFE2DDE8),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.06),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
-        BlocoTexto(
-          titulo: '2) VIOLÊNCIA PSICOLÓGICA (ART. 7º, INCISO II E ART. 147-B DO CP)',
-          conteudo:
-              'Qualquer conduta que cause dano emocional, diminuição da autoestima, perturbe o pleno desenvolvimento da mulher ou que vise degradar e controlar suas ações, comportamentos, crenças e decisões. Desde 2021, a violência psicológica é crime específico tipificado no Artigo 147-B do Código Penal.\n\n'
-              'Exemplos frequentes:\n\n'
-              '• Ameaças constantes à mulher, a seus filhos ou a seus animais de estimação;\n\n'
-              '• Humilhações públicas ou privadas, insultos e desvalorização constante de suas capacidades;\n\n'
-              '• Chantagem emocional e culpabilização da vítima pelas atitudes do agressor;\n\n'
-              '• Isolamento forçado: proibir de visitar familiares, falar com amigos ou frequentar locais sociais;\n\n'
-              '• Vigilância constante, perseguição contumaz (stalking) e controle excessivo de horários;\n\n'
-              '• Gaslighting: manipulação psicológica em que o agressor distorce fatos para fazer a mulher duvidar de sua memória, sanidade ou percepção da realidade.',
+        child: Column(
+          children: [
+
+            Expanded(
+              child: Center(
+                child: Icon(
+                  item.icone,
+                  size: 44,
+                  color: const Color(0xFF503769),
+                ),
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              height: 42,
+              decoration: const BoxDecoration(
+                color: Color(0xFFCFBBE8),
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(20),
+                ),
+              ),
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Text(
+                item.titulo,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1D192B),
+                ),
+              ),
+            ),
+          ],
         ),
-        BlocoTexto(
-          titulo: '3) VIOLÊNCIA SEXUAL (ART. 7º, INCISO III)',
-          conteudo:
-              'Qualquer conduta que constranja a mulher a presenciar, a manter ou a participar de relação sexual não desejada, mediante intimidação, ameaça, coação ou uso da força. Abrange também qualquer limitação ou anulação de seus direitos sexuais e reprodutivos.\n\n'
-              'Exemplos frequentes:\n\n'
-              '• Estupro (inclusive no âmbito do casamento, união estável ou namoro, o chamado estupro conjugal);\n\n'
-              '• Obrigar a mulher a realizar atos sexuais que lhe causam repulsa, dor ou desconforto;\n\n'
-              '• Impedir o uso de métodos contraceptivos (esconder a pílula, recusar o uso de preservativo ou retirá-lo durante o ato sem consentimento - stealthing);\n\n'
-              '• Forçar a gravidez indesejada ou coagir a mulher ao aborto;\n\n'
-              '• Forçar a prostituição ou a exposição sexual da vítima.',
+      ),
+    );
+  }
+
+  Widget _buildTelaDetalhe(ViolenciaItem item) {
+    final double larguraTela = MediaQuery.sizeOf(context).width;
+    final double larguraCard = larguraTela > 400 ? 362 : larguraTela - 32;
+
+    return CustomScaffold(
+      textoVoltar: 'Voltar para as opções',
+      onVoltar: () {
+        setState(() {
+          _itemSelecionado = null;
+        });
+      },
+      conteudos: [
+        Container(
+          width: larguraCard,
+          decoration: BoxDecoration(
+            color: const Color(0xFFE2DDE8),
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFCFBBE8),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(24),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(item.icone, size: 28, color: const Color(0xFF1D192B)),
+                    const SizedBox(width: 10),
+                    Flexible(
+                      child: Text(
+                        item.titulo,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1D192B),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.fromLTRB(18, 16, 18, 12),
+                child: Text(
+                  item.definicao,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    height: 1.45,
+                    color: Color(0xFF2C2735),
+                  ),
+                ),
+              ),
+
+              if (item.exemplos.isNotEmpty) ...[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  child: Column(
+                    children: item.exemplos.map((exemplo) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              '• ',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF503769),
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                exemplo,
+                                style: const TextStyle(
+                                  fontSize: 14.5,
+                                  height: 1.35,
+                                  color: Color(0xFF2C2735),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
+
+              const SizedBox(height: 14),
+            ],
+          ),
         ),
-        BlocoTexto(
-          titulo: '4) VIOLÊNCIA PATRIMONIAL (ART. 7º, INCISO IV)',
-          conteudo:
-              'Qualquer conduta que configure retenção, subtração, destruição parcial ou total de seus objetos, instrumentos de trabalho, documentos pessoais, bens, valores e direitos ou recursos econômicos, incluindo os destinados a satisfazer suas necessidades.\n\n'
-              'Exemplos frequentes:\n\n'
-              '• Confiscar, controlar ou reter o salário e a renda obtida pela mulher;\n\n'
-              '• Destruir pertences pessoais, roupas, fotos ou instrumentos essenciais para seu trabalho (computador, ferramentas);\n\n'
-              '• Esconder ou reter documentos indispensáveis (RG, CPF, certidões de nascimento, passaporte ou carteira de trabalho);\n\n'
-              '• Negar dinheiro para alimentação, medicamentos e sustento básico da casa e dos filhos;\n\n'
-              '• Contrair empréstimos ou abrir dívidas e cartões no nome da mulher sem a sua autorização;',
+
+        const SizedBox(height: 20),
+
+        Center(
+          child: Container(
+            width: 180,
+            height: 8,
+            decoration: BoxDecoration(
+              color: const Color(0xFFCFBBE8),
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
         ),
-        BlocoTexto(
-          titulo: '5) VIOLÊNCIA MORAL (ART. 7º, INCISO V)',
-          conteudo:
-              'Qualquer conduta que configure crimes contra a honra da mulher, especificamente calúnia, difamação ou injúria perante o Código Penal.\n\n'
-              'Exemplos frequentes:\n\n'
-              '• Calúnia: acusar falsamente a mulher de ter praticado um crime que ela não cometeu;\n\n'
-              '• Difamação: espalhar boatos, fofocas e mentiras sobre sua conduta ou vida íntima perante terceiros, no trabalho ou em redes sociais para manchar sua reputação e dignidade;\n\n'
-              '• Injúria: ofender diretamente sua dignidade e decoro com apelidos pejorativos, xingamentos grosseiros e ofensas à sua honra e aparência.',
-        ),
-        BlocoTexto(
-          titulo: '6) VIOLÊNCIA DIGITAL (VIRTUAL) E POLÍTICA',
-          conteudo:
-              'Com a expansão da tecnologia, novas formas de violência de gênero vêm sendo coibidas com rigor pela legislação:\n\n'
-              '• Perseguição Virtual (Cyberstalking - Art. 147-A do CP): monitorar os passos da mulher na internet, criar perfis falsos para perturbá-la ou enviar mensagens insistentes e ameaçadoras;\n\n'
-              '• Divulgação Não Autorizada de Intimidade (Revenge Porn): publicar ou ameaçar divulgar fotos, vídeos ou áudios íntimos sem o consentimento da vítima;\n\n'
-              '• Invasão de Dispositivos e Contas: invadir contas de e-mail, redes sociais ou instalar programas espiões no celular da vítima para rastrear suas conversas e localização por GPS;\n\n'
-              '• Violência Política contra a Mulher: assediar, constranger ou humilhar mulheres candidatas ou detentoras de mandato eletivo com a finalidade de impedir ou dificultar sua atuação política.',
-        ),
-        BlocoTexto(
-          titulo: '7) VIOLÊNCIA VICÁRIA (CONTRA OS FILHOS OU FAMILIARES)',
-          conteudo:
-              'Forma de violência na qual o agressor utiliza terceiros que a mulher ama – principalmente os filhos menores, mas também pais, irmãos ou animais de estimação – como instrumento para causar dor, sofrimento psicológico irreparável e desestabilização à mãe.\n\n'
-              'Manifesta-se através de ameaças de tirar a guarda dos filhos, alienação parental forçada, maus-tratos contra os dependentes para atingir a mãe ou descumprimento intencional do pagamento de pensão alimentícia.',
+
+        const SizedBox(height: 14),
+
+        SizedBox(
+          width: larguraCard,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                item.fonte,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF2C2735),
+                ),
+              ),
+              const SizedBox(height: 4),
+              GestureDetector(
+                onTap: () => _abrirLink(item.link),
+                child: const Text(
+                  '+ Saiba Mais',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF503769),
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
