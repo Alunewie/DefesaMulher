@@ -51,7 +51,7 @@ class CustomScaffold extends StatelessWidget {
             ? IconButton(
                 icon: const Icon(Icons.arrow_back_ios_new,
                     color: Colors.white, size: 28),
-                onPressed: () => _aoClicarSair(context),
+                onPressed: () => onVoltar != null ? onVoltar!() : _aoClicarSair(context),
               )
             : null,
         backgroundColor: const Color.fromRGBO(129, 93, 168, 1),
