@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:defesa_mulher_app/screens/ajuda.dart';
 import 'package:defesa_mulher_app/screens/direito.dart';
 import 'package:defesa_mulher_app/screens/inicio.dart';
+import 'package:defesa_mulher_app/screens/oculta.dart';
 import 'package:defesa_mulher_app/screens/prevencao.dart';
 import 'package:defesa_mulher_app/screens/sobre.dart';
 import 'package:defesa_mulher_app/screens/tipo_violencia.dart';
@@ -36,6 +37,7 @@ class DefesaMulherApp extends StatelessWidget {
         '/tipo_violencia': (context) => const TipoViolencia(),
         '/prevencao': (context) => const Prevencao(),
         '/sobre': (context) => const Sobre(),
+        '/oculta': (context) => const TelaOculta(),
       },
       initialRoute: '/home',
     );

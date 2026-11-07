@@ -5,6 +5,7 @@ import 'package:defesa_mulher_app/main.dart';
 import 'package:defesa_mulher_app/screens/ajuda.dart';
 import 'package:defesa_mulher_app/screens/direito.dart';
 import 'package:defesa_mulher_app/screens/inicio.dart';
+import 'package:defesa_mulher_app/screens/oculta.dart';
 import 'package:defesa_mulher_app/screens/prevencao.dart';
 import 'package:defesa_mulher_app/screens/sobre.dart';
 import 'package:defesa_mulher_app/screens/tipo_violencia.dart';
@@ -26,24 +27,21 @@ void main() {
     expect(find.text('Sobre o aplicativo'), findsOneWidget);
     expect(find.text('AJUDA'), findsOneWidget);
     expect(find.text('Sair'), findsOneWidget);
+    expect(find.text('Exibir Conteúdo'), findsOneWidget);
   });
 
-  testWidgets('Ajuda renders SectionCard with navigation buttons', (WidgetTester tester) async {
+  testWidgets('Ajuda renders SectionCard and title', (WidgetTester tester) async {
     await tester.pumpWidget(const MaterialApp(home: Ajuda()));
 
     expect(find.text('Onde Buscar Ajuda'), findsOneWidget);
-    expect(find.text('Voltar'), findsOneWidget);
-    expect(find.text('Próximo'), findsOneWidget);
     expect(find.byType(SectionCard), findsOneWidget);
     expect(find.text('Central de Atendimento à Mulher Ligue 180'), findsOneWidget);
   });
 
-  testWidgets('Direito renders SectionCard with navigation buttons', (WidgetTester tester) async {
+  testWidgets('Direito renders SectionCard and title', (WidgetTester tester) async {
     await tester.pumpWidget(const MaterialApp(home: Direito()));
 
     expect(find.text('Direitos e Proteção'), findsOneWidget);
-    expect(find.text('Voltar'), findsOneWidget);
-    expect(find.text('Próximo'), findsOneWidget);
     expect(find.byType(SectionCard), findsOneWidget);
     expect(find.text('Lei Maria da Penha'), findsOneWidget);
   });
@@ -79,7 +77,6 @@ void main() {
     await tester.pumpWidget(const MaterialApp(home: Prevencao()));
 
     expect(find.text('Prevenção e Orientação'), findsOneWidget);
-    expect(find.text('Voltar'), findsOneWidget);
     expect(find.byType(SectionCard), findsOneWidget);
     expect(find.text('O Ciclo de Violência'), findsOneWidget);
   });
@@ -92,5 +89,32 @@ void main() {
     expect(find.text('Fontes'), findsOneWidget);
     expect(find.text('Créditos'), findsOneWidget);
     expect(find.text('Versão 1.0'), findsOneWidget);
+  });
+
+  testWidgets('TelaOculta renders disguised illustration blocks and switch', (WidgetTester tester) async {
+    await tester.pumpWidget(const MaterialApp(home: TelaOculta()));
+
+    expect(find.byType(Image), findsNWidgets(4));
+    expect(find.text('Sair'), findsOneWidget);
+  });
+
+  testWidgets('Navegacao para rota oculta ao acionar switch na Home', (WidgetTester tester) async {
+    await tester.pumpWidget(const DefesaMulherApp());
+
+    expect(find.text('Olá, vamos te ajudar!'), findsOneWidget);
+
+    // Toca no botão/switch de Exibir Conteúdo
+    await tester.tap(find.text('Exibir Conteúdo'));
+    await tester.pumpAndSettle();
+
+    // Deve estar na tela oculta com os blocos de imagens
+    expect(find.byType(Image), findsNWidgets(4));
+
+    // Toca no switch na tela oculta para voltar
+    await tester.tap(find.byType(GestureDetector).first);
+    await tester.pumpAndSettle();
+
+    // Volta para a tela principal
+    expect(find.text('Olá, vamos te ajudar!'), findsOneWidget);
   });
 }
