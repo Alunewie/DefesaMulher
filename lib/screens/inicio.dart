@@ -52,7 +52,6 @@ class Inicio extends StatelessWidget {
       titulo: 'Olá, vamos te ajudar!',
       subtitulo: 'O que você precisa neste momento?',
       conteudos: [
-        const SizedBox(height: 12),
         _gerarBotaoTelaInicial(
           Icons.location_on,
           'Onde buscar ajuda',

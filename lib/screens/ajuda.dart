@@ -9,7 +9,7 @@ class Ajuda extends StatelessWidget {
   Widget build(BuildContext context) {
     return const CustomScaffold(
       titulo: 'Onde Buscar Ajuda',
-      categoriaIcone: Icons.location_on,
+      icone: Icons.location_on,
       proximaRota: '/direito',
       conteudos: [
         SectionCard(

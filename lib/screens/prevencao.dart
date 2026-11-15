@@ -9,7 +9,7 @@ class Prevencao extends StatelessWidget {
   Widget build(BuildContext context) {
     return const CustomScaffold(
       titulo: 'Prevenção e Orientação',
-      categoriaIcone: Icons.chat_bubble_outline,
+      icone: Icons.chat_bubble_outline,
       conteudos: [
         SectionCard(
           itens: [

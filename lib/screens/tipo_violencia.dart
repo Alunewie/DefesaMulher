@@ -29,7 +29,7 @@ class _TipoViolenciaState extends State<TipoViolencia> {
 
     return CustomScaffold(
       titulo: 'Tipos de violência',
-      categoriaIcone: Icons.front_hand,
+      icone: Icons.front_hand,
       proximaRota: '/prevencao',
       conteudos: [
         _buildGridOpcoes(),
@@ -227,8 +227,6 @@ class _TipoViolenciaState extends State<TipoViolencia> {
             ),
           ),
         ),
-
-        const SizedBox(height: 14),
 
         SizedBox(
           width: larguraCard,

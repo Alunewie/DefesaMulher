@@ -9,8 +9,7 @@ class CustomScaffold extends StatelessWidget {
   final String? subtitulo;
   final List<Widget> conteudos;
   final bool isHome;
-  final bool isOculta;
-  final IconData? categoriaIcone;
+  final IconData? icone;
   final String? proximaRota;
   final String? textoVoltar;
   final VoidCallback? onVoltar;
@@ -22,8 +21,7 @@ class CustomScaffold extends StatelessWidget {
     this.titulo,
     this.subtitulo,
     this.isHome = false,
-    this.isOculta = false,
-    this.categoriaIcone,
+    this.icone,
     this.proximaRota,
     this.textoVoltar,
     this.onVoltar,
@@ -31,316 +29,174 @@ class CustomScaffold extends StatelessWidget {
   });
 
   void _abrirTelefone() async {
-    await launchUrl(Uri.parse('tel:190'));
+    await launchUrl(Uri.parse('tel:180'));
   }
 
   void _aoClicarSair(BuildContext context) {
-    if (onVoltar != null) {
-      onVoltar!();
-    } else if (Navigator.canPop(context)) {
-      Navigator.pop(context);
+    if (Navigator.canPop(context)) {
+      Navigator.popUntil(context, (route) => route.isFirst);
     } else {
       SystemNavigator.pop();
     }
-  }
-
-  void _toggleExibirConteudo(BuildContext context) {
-    if (isOculta) {
-      if (Navigator.canPop(context)) {
-        Navigator.pop(context);
-      } else {
-        Navigator.pushReplacementNamed(context, '/home');
-      }
-    } else {
-      NavigationService.navigateTo('/oculta');
-    }
-  }
-
-  Widget _buildSwitch() {
-    final bool ativo = !isOculta;
-
-    return Container(
-      width: 52,
-      height: 28,
-      padding: const EdgeInsets.all(3),
-      decoration: BoxDecoration(
-        color: ativo
-            ? const Color(0xFF503769)
-            : const Color(0xFF6E4C91).withOpacity(0.6),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: AnimatedAlign(
-        duration: const Duration(milliseconds: 200),
-        alignment: ativo ? Alignment.centerRight : Alignment.centerLeft,
-        child: Container(
-          width: 22,
-          height: 22,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-          ),
-          child: ativo
-              ? const Icon(
-                  Icons.check,
-                  size: 14,
-                  color: Color(0xFF503769),
-                )
-              : null,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTopBar(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      decoration: const BoxDecoration(
-        color: Color(0xFF815DA8),
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(24),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color:  Color(0xFF503769),
-            blurRadius: 6,
-            spreadRadius: -2,
-            offset: Offset(0, 6),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => _toggleExibirConteudo(context),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildSwitch(),
-                const SizedBox(height: 4),
-                const Text(
-                  'Exibir Conteúdo',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => _aoClicarSair(context),
-            child: const Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(Icons.logout, size: 28, color: Colors.white),
-                SizedBox(height: 4),
-                Text(
-                  'Sair',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHomeHeaderTitles() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(28, 20, 28, 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            titulo ?? 'Olá, vamos te ajudar!',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              height: 1.15,
-            ),
-          ),
-          if (subtitulo != null && subtitulo!.isNotEmpty) ...[
-            const SizedBox(height: 8),
-            Text(
-              subtitulo!,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(129, 93, 168, 1),
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildTopBar(context),
-            if (isHome) _buildHomeHeaderTitles() else const Padding(padding: EdgeInsets.fromLTRB(28, 20, 28, 16)),
-            Expanded(
-              child: CustomPaint(
-                painter: const CurvedBorderPainter(),
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 24, horizontal: 16),
-                  child: Column(
-                    spacing: espacamento ?? 15,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      if (!isHome) ...[
-                        if (textoVoltar != null)
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: TextButton.icon(
-                              onPressed: onVoltar ?? () => Navigator.pop(context),
-                              icon: const Icon(Icons.arrow_back,
-                                  color: Color(0xFF503769)),
-                              label: Text(
-                                textoVoltar!,
-                                style: const TextStyle(
-                                  color: Color(0xFF503769),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                          ),
-                        if (categoriaIcone != null) ...[
-                          Icon(
-                            categoriaIcone,
-                            size: 38,
-                            color: const Color(0xFF3B334C),
-                          ),
-                        ],
-                        if (titulo != null && titulo!.isNotEmpty) ...[
-                          Text(
-                            titulo!,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: Color(0xFF3B334C),
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ],
-                      ...conteudos,
-                    ],
-                  ),
-                ),
+      appBar: AppBar(
+        toolbarHeight: 120,
+        automaticallyImplyLeading: false,
+        leading: Navigator.canPop(context)
+            ? IconButton(
+          icon: const Icon(Icons.arrow_back,
+              color: Colors.white, size: 28),
+          onPressed: () => onVoltar != null ? onVoltar!() : _aoClicarSair(context),
+        )
+            : null,
+        backgroundColor: const Color.fromRGBO(129, 93, 168, 1),
+        title:
+            Text(!isHome ? 'Voltar' : 'Sinal Lilás',
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: GestureDetector(
+              onTap: () {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+              },
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.logout, size: 35, color: Colors.white),
+                  Text(
+                    'Sair',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
             ),
-          ],
+          )
+        ],
+      ),
+      body: SizedBox.expand(
+        child: CustomPaint(
+          painter: const CurvedBorderPainter(),
+          child: Center(
+            child: Column(
+              spacing: espacamento ?? 20,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:[
+               !isHome ? Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    icone != null ? Icon(icone!, color: const Color.fromRGBO(75, 88, 69, 1), size: 25) : Container(),
+                    Text(
+                      titulo ?? '',
+                      style: const TextStyle(
+                          color: Color.fromRGBO(75, 88, 69, 1),
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ) : Container(),
+                ...conteudos],
+            ),
+          ),
         ),
       ),
       bottomNavigationBar: Container(
-        height: 120,
+        height: 150,
         color: const Color.fromRGBO(129, 93, 168, 1),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: (isHome == true)
           ? Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      FloatingActionButton(
-                        onPressed: () {
-                          NavigationService.navigateTo('/sobre');
-                        },
-                        backgroundColor: const Color.fromRGBO(104, 79, 129, 1),
-                        child: const Icon(
-                          Icons.help_outline_sharp,
-                          size: 27,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      const Text(
-                        'Sobre o aplicativo',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FloatingActionButton(
+                  onPressed: () {
+                    NavigationService.navigateTo('/sobre');
+                  },
+                  backgroundColor: const Color.fromRGBO(104, 79, 129, 1),
+                  child: const Icon(
+                    Icons.help_outline_sharp,
+                    size: 27,
+                    color: Colors.white,
                   ),
-                  FloatingActionButton.extended(
-                    backgroundColor: const Color.fromRGBO(80, 55, 105, 1),
-                    extendedPadding: const EdgeInsets.all(25),
-                    onPressed: () {
-                      _abrirTelefone();
-                    },
-                    label: const Row(
-                      spacing: 15,
-                      children: [
-                        Icon(Icons.phone_in_talk,
-                            size: 27, color: Colors.white),
-                        Text(
-                          'AJUDA',
-                          style: TextStyle(
-                            fontSize: 27,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+                ),
+                const SizedBox(height: 6),
+                const Text(
+                  'Sobre o aplicativo',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            FloatingActionButton.extended(
+              backgroundColor: const Color.fromRGBO(80, 55, 105, 1),
+              extendedPadding: const EdgeInsets.all(25),
+              onPressed: () {
+                _abrirTelefone();
+              },
+              label: const Row(
+                spacing: 15,
+                children: [
+                  Icon(Icons.phone_in_talk,
+                      size: 27, color: Colors.white),
+                  Text(
+                    'AJUDA',
+                    style: TextStyle(
+                      fontSize: 27,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
                     ),
                   ),
                 ],
               ),
-            )
-          : (isOculta
-              ? null
-              : FloatingActionButton.extended(
-                  backgroundColor: const Color.fromRGBO(80, 55, 105, 1),
-                  extendedPadding: const EdgeInsets.all(25),
-                  onPressed: () {
-                    _abrirTelefone();
-                  },
-                  label: const Row(
-                    spacing: 15,
-                    children: [
-                      Icon(Icons.phone_in_talk, size: 27, color: Colors.white),
-                      Text(
-                        'AJUDA',
-                        style: TextStyle(
-                            fontSize: 27,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white),
-                      )
-                    ],
-                  ),
-                )),
+            ),
+          ],
+        ),
+      )
+          : FloatingActionButton.extended(
+          backgroundColor: const Color.fromRGBO(80, 55, 105, 1),
+          extendedPadding: const EdgeInsets.all(25),
+          onPressed: () {
+            _abrirTelefone();
+          },
+          label: const Row(
+            spacing: 15,
+            children: [
+              Icon(Icons.phone_in_talk, size: 27, color: Colors.white),
+              Text(
+                'AJUDA',
+                style: TextStyle(
+                    fontSize: 27,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white),
+              )
+            ],
+          )),
     );
   }
 }

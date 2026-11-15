@@ -60,7 +60,7 @@ class Sobre extends StatelessWidget {
 
     return CustomScaffold(
       titulo: 'Sobre o aplicativo',
-      categoriaIcone: Icons.help_outline,
+      icone: Icons.help_outline,
       conteudos: [
         Container(
           width: larguraCard,

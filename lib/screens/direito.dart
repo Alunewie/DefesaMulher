@@ -9,7 +9,7 @@ class Direito extends StatelessWidget {
   Widget build(BuildContext context) {
     return const CustomScaffold(
       titulo: 'Direitos e Proteção',
-      categoriaIcone: Icons.shield_outlined,
+      icone: Icons.shield_outlined,
       proximaRota: '/tipo_violencia',
       conteudos: [
         SectionCard(

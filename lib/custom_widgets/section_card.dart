@@ -32,65 +32,69 @@ class SectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double alturaTela = MediaQuery.sizeOf(context).height;
     final double larguraTela = MediaQuery.sizeOf(context).width;
     final double larguraCard = larguraTela > 400 ? 362 : larguraTela - 32;
 
     return Container(
       width: larguraCard,
+      height: alturaTela / 2,
       decoration: BoxDecoration(
         color: const Color(0xFFE2DDE8),
         borderRadius: BorderRadius.circular(24),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          for (int i = 0; i < itens.length; i++) ...[
-            _buildBlocoTopico(itens[i], isFirst: i == 0),
-            if (i < itens.length - 1) const SizedBox(height: 12),
-          ],
-          const SizedBox(height: 16),
-          Center(
-            child: Container(
-              width: 180,
-              height: 8,
-              decoration: BoxDecoration(
-                color: const Color(0xFFCFBBE8),
-                borderRadius: BorderRadius.circular(20),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (int i = 0; i < itens.length; i++) ...[
+              _buildBlocoTopico(itens[i], isFirst: i == 0),
+              if (i < itens.length - 1) const SizedBox(height: 12),
+            ],
+            const SizedBox(height: 16),
+            Center(
+              child: Container(
+                width: 180,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFCFBBE8),
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  fonte,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF2C2735),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                GestureDetector(
-                  onTap: () => _abrirLink(linkSaibaMais),
-                  child: const Text(
-                    '+ Saiba Mais',
-                    style: TextStyle(
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    fonte,
+                    style: const TextStyle(
                       fontSize: 14,
-                      color: Color(0xFF503769),
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
+                      color: Color(0xFF2C2735),
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 4),
+                  GestureDetector(
+                    onTap: () => _abrirLink(linkSaibaMais),
+                    child: const Text(
+                      '+ Saiba Mais',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF503769),
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-        ],
+            const SizedBox(height: 8),
+          ],
+        ),
       ),
     );
   }
