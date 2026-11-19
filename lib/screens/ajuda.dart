@@ -15,7 +15,7 @@ class Ajuda extends StatelessWidget {
         SectionCard(
           itens: [
             SectionItem(
-              titulo: 'Central de Atendimento à Mulher Ligue 180',
+              titulo: 'Central de Atendimento \n à Mulher Ligue 180',
               conteudo:
                   'É um serviço público e gratuito de acolhimento, orientação e registro de denúncias de violência contra as mulheres. Funciona 24 horas por dia, todos os dias da semana.\n\n'
                   'O atendimento pode ser acessado pelos seguintes canais:\n\n'

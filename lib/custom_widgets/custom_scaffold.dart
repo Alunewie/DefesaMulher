@@ -130,6 +130,7 @@ class CustomScaffold extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 FloatingActionButton(
+                  heroTag: 'sobreFab',
                   onPressed: () {
                     NavigationService.navigateTo('/sobre');
                   },
@@ -152,6 +153,7 @@ class CustomScaffold extends StatelessWidget {
               ],
             ),
             FloatingActionButton.extended(
+              heroTag: 'ajudaFAB',
               backgroundColor: const Color.fromRGBO(80, 55, 105, 1),
               extendedPadding: const EdgeInsets.all(25),
               onPressed: () {
