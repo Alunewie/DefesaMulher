@@ -56,6 +56,7 @@ class Sobre extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double larguraTela = MediaQuery.sizeOf(context).width;
+    final double alturaTela = MediaQuery.sizeOf(context).width;
     final double larguraCard = larguraTela > 400 ? 362 : larguraTela - 32;
 
     return CustomScaffold(
@@ -63,73 +64,71 @@ class Sobre extends StatelessWidget {
       icone: Icons.help_outline,
       conteudos: [
         Container(
-          width: larguraCard,
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: const Color(0xFFE2DDE8),
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: const Text(
-            'O App Defesa da Mulher é um aplicativo mobile que oferece conteúdo confiável, acessível e seguro sobre prevenção e enfrentamento da violência contra a mulher, direitos garantidos por lei e canais oficiais de proteção e emergência.',
-            style: TextStyle(
-              fontSize: 16,
-              height: 1.45,
-              color: Color(0xFF2C2735),
+            width: larguraCard,
+            // height: alturaTela / 1.1,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24),
             ),
-          ),
-        ),
-
-        const SizedBox(height: 24),
-
-        _buildBotaoOpcao(
-          context: context,
-          largura: larguraCard,
-          icone: Icons.language,
-          rotulo: 'Política de Privacidade',
-          onTap: () => _mostrarPoliticaPrivacidade(context),
-        ),
-
-        const SizedBox(height: 14),
-
-        _buildBotaoOpcao(
-          context: context,
-          largura: larguraCard,
-          icone: Icons.menu_book,
-          rotulo: 'Fontes',
-          onTap: () => _mostrarFontes(context),
-        ),
-
-        const SizedBox(height: 14),
-
-        _buildBotaoOpcao(
-          context: context,
-          largura: larguraCard,
-          icone: Icons.people_alt_outlined,
-          rotulo: 'Créditos',
-          onTap: () => _mostrarCreditos(context),
-        ),
-
-        const SizedBox(height: 28),
-        const Column(
-          children: [
-            Text(
-              'Versão 1.0',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF503769),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const Text(
+                    'O App Defesa da Mulher é um aplicativo mobile que oferece conteúdo confiável, acessível e seguro sobre prevenção e enfrentamento da violência contra a mulher, direitos garantidos por lei e canais oficiais de proteção e emergência.',
+                    style: TextStyle(
+                      fontSize: 16,
+                      height: 1.45,
+                      color: Color(0xFF2C2735),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  _buildBotaoOpcao(
+                    context: context,
+                    largura: larguraCard,
+                    icone: Icons.language,
+                    rotulo: 'Política de Privacidade',
+                    onTap: () => _mostrarPoliticaPrivacidade(context),
+                  ),
+                  const SizedBox(height: 14),
+                  _buildBotaoOpcao(
+                    context: context,
+                    largura: larguraCard,
+                    icone: Icons.menu_book,
+                    rotulo: 'Fontes',
+                    onTap: () => _mostrarFontes(context),
+                  ),
+                  const SizedBox(height: 14),
+                  _buildBotaoOpcao(
+                    context: context,
+                    largura: larguraCard,
+                    icone: Icons.people_alt_outlined,
+                    rotulo: 'Créditos',
+                    onTap: () => _mostrarCreditos(context),
+                  ),
+                  const SizedBox(height: 28),
+                  const Column(
+                    children: [
+                      Text(
+                        'Versão 1.0',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF503769),
+                        ),
+                      ),
+                      SizedBox(height: 2),
+                      Text(
+                        'Atualizado em: 2026',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF503769),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 2),
-            Text(
-              'Atualizado em: 2026',
-              style: TextStyle(
-                fontSize: 14,
-                color: Color(0xFF503769),
-              ),
-            ),
-          ],
-        ),
+            )),
       ],
     );
   }
