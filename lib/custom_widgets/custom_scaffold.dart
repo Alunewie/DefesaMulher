@@ -67,9 +67,7 @@ class CustomScaffold extends StatelessWidget {
             padding: const EdgeInsets.only(right: 15),
             child: GestureDetector(
               onTap: () {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                }
+                SystemNavigator.pop();
               },
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
