@@ -3,6 +3,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:defesa_mulher_app/custom_widgets/custom_scaffold.dart';
 import 'package:defesa_mulher_app/models/violencia_item.dart';
 
+import '../custom_widgets/section_card.dart';
+
 class TipoViolencia extends StatefulWidget {
   const TipoViolencia({super.key});
 
@@ -115,10 +117,8 @@ class _TipoViolenciaState extends State<TipoViolencia> {
   }
 
   Widget _buildTelaDetalhe(ViolenciaItem item) {
-    final double larguraTela = MediaQuery.sizeOf(context).width;
-    final double larguraCard = larguraTela > 400 ? 362 : larguraTela - 32;
-
     return CustomScaffold(
+      espacamento: 0,
       textoVoltar: 'Voltar para as opções',
       onVoltar: () {
         setState(() {
@@ -126,136 +126,21 @@ class _TipoViolenciaState extends State<TipoViolencia> {
         });
       },
       conteudos: [
-        Container(
-          width: larguraCard,
-          decoration: BoxDecoration(
-            color: const Color(0xFFE2DDE8),
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFCFBBE8),
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(24),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(item.icone, size: 28, color: const Color(0xFF1D192B)),
-                    const SizedBox(width: 10),
-                    Flexible(
-                      child: Text(
-                        item.titulo,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF1D192B),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.fromLTRB(18, 16, 18, 12),
-                child: Text(
-                  item.definicao,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    height: 1.45,
-                    color: Color(0xFF2C2735),
-                  ),
-                ),
-              ),
-
-              if (item.exemplos.isNotEmpty) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18),
-                  child: Column(
-                    children: item.exemplos.map((exemplo) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              '• ',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF503769),
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                exemplo,
-                                style: const TextStyle(
-                                  fontSize: 14.5,
-                                  height: 1.35,
-                                  color: Color(0xFF2C2735),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ],
-
-              const SizedBox(height: 14),
-            ],
-          ),
-        ),
-
-        const SizedBox(height: 20),
-
-        Center(
-          child: Container(
-            width: 180,
-            height: 8,
-            decoration: BoxDecoration(
-              color: const Color(0xFFCFBBE8),
-              borderRadius: BorderRadius.circular(20),
+        SectionCard(
+          itens: [
+            SectionItem(
+              titulo: item.titulo,
+              icone: item.icone,
+              conteudo: item.definicao,
             ),
-          ),
-        ),
-
-        SizedBox(
-          width: larguraCard,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                item.fonte,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF2C2735),
-                ),
-              ),
-              const SizedBox(height: 4),
-              GestureDetector(
-                onTap: () => _abrirLink(item.link),
-                child: const Text(
-                  '+ Saiba Mais',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF503769),
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            SectionItem(titulo: 'Exemplos',
+                tituloCentralizado: false,
+                conteudo: item.exemplos.map((exemplo) {
+              return '• $exemplo\n';
+            }).join(''))
+          ],
+          fonte: item.fonte,
+          linkSaibaMais: item.link,
         ),
       ],
     );

@@ -4,10 +4,14 @@ import 'package:url_launcher/url_launcher.dart';
 class SectionItem {
   final String titulo;
   final String conteudo;
+  final IconData? icone;
+  final bool? tituloCentralizado;
 
   const SectionItem({
     required this.titulo,
     required this.conteudo,
+    this.icone,
+    this.tituloCentralizado
   });
 }
 
@@ -111,15 +115,22 @@ class SectionCard extends StatelessWidget {
               top: isFirst ? const Radius.circular(24) : Radius.zero,
             ),
           ),
-          child: Text(
-            item.titulo,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF1D192B),
-              letterSpacing: 0.15,
-            ),
+          child: Row(
+            mainAxisAlignment:  item.tituloCentralizado == null || item.tituloCentralizado!
+                ?  MainAxisAlignment.center : MainAxisAlignment.start,
+            spacing: 15,
+            children: [
+              item.icone != null ? Icon(item.icone) : Container(),
+              Text(
+                item.titulo,
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1D192B),
+                  letterSpacing: 0.15,
+                ),
+              )
+            ],
           ),
         ),
         Padding(
