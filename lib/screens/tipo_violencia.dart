@@ -15,13 +15,6 @@ class TipoViolencia extends StatefulWidget {
 class _TipoViolenciaState extends State<TipoViolencia> {
   ViolenciaItem? _itemSelecionado;
 
-  Future<void> _abrirLink(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
 
@@ -69,7 +62,7 @@ class _TipoViolenciaState extends State<TipoViolencia> {
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.06),
+              color: Colors.black.withValues(alpha: 0.06),
               blurRadius: 8,
               offset: const Offset(0, 3),
             ),
