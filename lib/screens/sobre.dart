@@ -21,7 +21,7 @@ class Sobre extends StatelessWidget {
       context: context,
       builder: (ctx) {
         return AlertDialog(
-          backgroundColor: const Color(0xFFF4F0DD),
+          backgroundColor: const Color(0xFFFFFFFF),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
             side: const BorderSide(color: Color(0xFFA7C262), width: 3),
@@ -56,7 +56,6 @@ class Sobre extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double larguraTela = MediaQuery.sizeOf(context).width;
-    final double alturaTela = MediaQuery.sizeOf(context).width;
     final double larguraCard = larguraTela > 400 ? 362 : larguraTela - 32;
 
     return CustomScaffold(
@@ -65,7 +64,6 @@ class Sobre extends StatelessWidget {
       conteudos: [
         Container(
             width: larguraCard,
-            // height: alturaTela / 1.1,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24),
@@ -73,12 +71,21 @@ class Sobre extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const Text(
-                    'O App Defesa da Mulher é um aplicativo mobile que oferece conteúdo confiável, acessível e seguro sobre prevenção e enfrentamento da violência contra a mulher, direitos garantidos por lei e canais oficiais de proteção e emergência.',
-                    style: TextStyle(
-                      fontSize: 16,
-                      height: 1.45,
-                      color: Color(0xFF2C2735),
+                  Container(
+                    padding:const EdgeInsets.all(12.0),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                        color: Color.fromRGBO(226, 221, 232, 1),
+
+                    ),
+                    child:
+                    const Text(
+                      'O Sinal Lilás - Defesa da Mulher é um aplicativo mobile que oferece conteúdo confiável, acessível e seguro sobre prevenção e enfrentamento da violência contra a mulher, direitos garantidos por lei e canais oficiais de proteção e emergência.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        height: 1.45,
+                        color: Color(0xFF2C2735),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -277,34 +284,78 @@ class Sobre extends StatelessWidget {
     _exibirDialogo(
       context,
       titulo: 'Créditos do Projeto',
-      conteudo: const Column(
+      conteudo: Column(
+        spacing: 5,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Grupo 12 - Fábrica de Software (2º Semestre de 2026)',
+          const Text(
+            'Projeto de Extensão Fábrica de Software',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 15,
               color: Color(0xFF1D192B),
             ),
           ),
-          SizedBox(height: 4),
-          Text(
-            'Projeto de Extensão Universitária voltado à promoção de informação e segurança para mulheres.',
-            style: TextStyle(fontSize: 13, color: Color(0xFF49454F)),
+          const SizedBox(height: 10),
+          const Text(
+            'Aplicativo Sinal Lilás - Defesa da Mulher',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+              color: Color(0xFF1D192B),
+            ),
           ),
-          Divider(height: 24),
-          Text(
+          const SizedBox(height: 10),
+          const Text(
+            'Professor Coordernador:',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          ),
+          const Text(' Prof. Dr. Elvio Gilberto da Silva',
+            style: TextStyle(fontSize: 14, height: 1.4),
+          ),
+          const SizedBox(height: 5),
+          const Text(
+            'Professores Colaboradores:',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          ),
+          const Text(' Prof. Me. Luis Felipe Grael Tinós \n Prof.ª Esp. Camila Pellizon Floret',
+            style: TextStyle(fontSize: 14, height: 1.4),
+          ),
+          const SizedBox(height: 5),
+          const Text(
+            'Tutores de Apoio:',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          ),
+          const Text(''' Luis Guilherme Tiritan Martins \n Pedro Guermandi Bressan \n Yago da Silva Leme ''',
+            style: TextStyle(fontSize: 14, height: 1.4),
+          ),
+          const SizedBox(height: 5),
+          const Text(
             'Integrantes:',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
           ),
-          SizedBox(height: 8),
-          Text(
-            '• Vinicius Lima Santos\n  Programação e Pesquisa\n\n'
-            '• Bianca Vitória Pinheiro da Silva\n  Design e Pesquisa\n\n'
-            '• Victor Hugo Pierini Pereira\n  Programação e Pesquisa',
+          const Text(''' Vinicius Lima Santos \n -Ciência da Computação \n Bianca Vitória Pinheiro da Silva \n -Design''',
             style: TextStyle(fontSize: 14, height: 1.4),
           ),
+          const SizedBox(height: 5),
+          const Center(
+            child:   Text(
+              'Desenvolvimento',
+              style: TextStyle(fontSize: 14),
+            ),
+          ),
+          Center(
+            child: Image.asset('assets/logo_universidade.png'),
+          ),
+          const Center(
+            child:   Text(
+              'Apoio',
+              style: TextStyle(fontSize: 14),
+            ),
+          ),
+          Center(
+            child: Image.asset('assets/banner_universidade.png'),
+          )
         ],
       ),
     );
